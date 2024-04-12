@@ -46,7 +46,7 @@ const NoteDetail = ({ updateNote, onBackToList }) => {
 
   return (
     <>
-      <Link to={"/notes"} className="link" onClick={onBackToList}>
+      <Link to={"/notes"} className="btn" onClick={onBackToList}>
         Back to List
       </Link>
       <div className="profile">

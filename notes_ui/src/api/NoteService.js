@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_URL = 'http://localhost:8080/api/v1/notes';
 const API_URL_2 = 'http://localhost:8080/api/v1/notes/archived';
+//const API_URL_3 = 'http://localhost:8080/api/v1/notes/active';
 
 
 export async function getNotes(page = 0, size = 10) {

@@ -18,7 +18,7 @@ function App() {
     content: ''
   });   
 
-  const getAllNotes = async (page = 0, size = 10) => {
+  const getAllNotes = async (page = 0, size = 8) => {
     try {
       setCurrentPage(page);
       const { data } = await getNotes(page, size);
@@ -46,9 +46,11 @@ function App() {
         content: '',
       })
       getAllNotes();
+      toastSuccess('Note Updated');
       console.log(data)
     }catch(error){
       console.log(error)
+      toastError(error.message);
     }
   };
 
@@ -63,7 +65,7 @@ function App() {
     }
   };
 
-  const getAllArchived = async (page = 0, size = 10) => {
+  const getAllArchived = async (page = 0, size = 8) => {
     try {
       setCurrentPage(page);
       const { data } = await getArchived(page, size);

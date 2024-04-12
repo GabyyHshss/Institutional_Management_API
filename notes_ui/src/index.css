@@ -35,7 +35,10 @@ li {
 }
 
 a {
+	color: #222;
 	text-decoration: none;
+	position: relative;
+    top: 4px;
 }
 
 button {
@@ -86,6 +89,7 @@ p {
 	border: 1px solid var(--kappel);
 	box-shadow: 0 0 2px var(--black_80);
 	transition: 0.2s ease-out;
+	color: #222;
 }
 
 .btn:hover {
@@ -146,7 +150,6 @@ p {
 	font-weight: 600;
 	padding: 2px;
 	width: 100%;
-	margin-bottom: 0.5rem;
 	border: 1px solid var(--kappel);
 }
 .note__archived{
