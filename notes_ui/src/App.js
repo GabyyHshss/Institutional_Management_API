@@ -1,23 +1,21 @@
 import { useEffect, useState, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
+import 'react-toastify/dist/ReactToastify.css';
 import Header from "./components/Header";
 import NoteList from "./components/NoteList";
 import { getNotes, getArchived, saveNote } from "./api/NoteService";
+import NoteDetail from "./components/NoteDetail";
+import { toastError, toastSuccess} from './api/ToastService';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const modalRef = useRef();
-  const fileRef = useRef();
   const [data, setData] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
-  const [file, setFile] = useState(undefined);
   const [values, setValues] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
+    createdAt: '',
     title: '',
-    status: '',
+    content: ''
   });   
 
   const getAllNotes = async (page = 0, size = 10) => {
@@ -28,34 +26,40 @@ function App() {
       console.log(data);
     } catch (error) {
       console.log(error);
+      toastError(error.message);
     }
   };
 
   const onChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
+    console.log(values)
   };
 
-  const handleNewContact = async (event) => {
+  const handleNewNote = async (event) => {
     event.preventDefault();
-    try {
-      const { data } = await saveNote(values);
-      const formData = new FormData();
-      formData.append('file', file, file.name);
-      formData.append('id', data.id);
+    try{
+      const{ data } = await saveNote(values);
       toggleModal(false);
-      setFile(undefined);
-      fileRef.current.value = null;
-      setValues({
-        name: '',
-        email: '',
-        phone: '',
-        address: '',
+      setValues( {
+        createdAt: '',
         title: '',
-        status: '',
+        content: '',
       })
       getAllNotes();
+      console.log(data)
+    }catch(error){
+      console.log(error)
+    }
+  };
+
+  const updateNote = async (note) => {
+    try {
+      const { data } = await saveNote(note);
+      console.log(data);
+      toastSuccess('Note Updated');
     } catch (error) {
       console.log(error);
+      toastError(error.message);
     }
   };
 
@@ -71,6 +75,10 @@ function App() {
   };
 
   const toggleModal = show => show ? modalRef.current.showModal() : modalRef.current.close();
+
+  const handleBackToList = () => {
+    getAllNotes();
+  };
   
   useEffect(() => {
     getAllNotes();
@@ -98,6 +106,13 @@ function App() {
                 />
               }
             />
+            <Route path="/notes/:noteId" 
+            element={
+              <NoteDetail
+                updateNote={updateNote}
+                onBackToList={handleBackToList}
+              />
+            } />
           </Routes>
         </div>
       </main>
@@ -109,25 +124,20 @@ function App() {
         </div>
         <div className="divider"></div>
         <div className="modal__body">
-          <form onSubmit={handleNewContact}>
+          <form onSubmit={handleNewNote}>
             <div className="user-details">
               <div className="input-box">
-                <span className="details">Date:</span>
-                <input type="text" value={values.name} onChange={onChange} name='name' required  autoComplete="name"/>
-              </div>
-              <div className="input-box">
                 <span className="details">Title:</span>
-                <input type="text" value={values.email} onChange={onChange} name='email' required  />
-              </div>
-              <div className="input-box">
-                <span className="details">Content:</span>
                 <input type="text" value={values.title} onChange={onChange} name='title' required  />
               </div>
               <div className="input-box">
-              <p className="details">Tag:</p>
-                <select className="input">
-                  <option value="">Open this select menu</option>
-                </select>
+                <span className="details">Content:</span>
+                <input type="text" value={values.content} onChange={onChange} name='content' required  />
+              </div>
+              <div className="input-box">
+                <span className="details">Date:</span>
+                <input type="text" value={values.createdAt} 
+                onChange={onChange} name='createdAt' required />
               </div>
             </div>
             <div className="form_footer">
@@ -137,6 +147,7 @@ function App() {
           </form>
         </div>
       </dialog>
+      <ToastContainer />
     </>
   );
 }

@@ -1,8 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Note = ({ note }) => {
   return (
-    <div to={`/notes`} className="note__item">
+    <Link to={`/notes/${note.noteId}`} className="note__item">
             <div className="note__header">
                 <div className="note__details">
                     <p className="note__title">{note.createdAt}</p>
@@ -18,7 +19,7 @@ const Note = ({ note }) => {
                     <p className="note__title__tag" key={tag.tagId}>{tag.tagName}</p>
                 ))}
             </div>
-        </div>
+        </Link>
   )
 }
 export default Note

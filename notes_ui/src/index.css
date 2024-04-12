@@ -233,6 +233,42 @@ p {
 	/* Hide horizontal scrollbar */
 }
 
+.pagination {
+	margin-top: 2rem;
+	display: flex;
+	justify-content: center;
+	margin-bottom: 10rem;
+}
+
+.pagination button {
+	color: black;
+	padding: 5px 10px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border: 1px solid #ddd;
+	cursor: pointer;
+}
+
+.pagination button:first-child {
+	border-top-left-radius: var(--radius-5);
+	border-bottom-left-radius: var(--radius-5);
+}
+
+.pagination button:last-child {
+	border-top-right-radius: var(--radius-5);
+	border-bottom-right-radius: var(--radius-5);
+}
+
+.pagination button.active {
+	background-color: var(--selective-blue);
+	color: white;
+	border: 1px solid var(--selective-blue);
+}
+
+.pagination button:hover:not(.active) {
+	background-color: #ecf1f1;
+}
+
 .modal__footer {
 	display: flex;
 	justify-content: space-between;
@@ -272,7 +308,7 @@ dialog[open] {
 	text-align: center;
 }
 
-.input-box input, .input {
+.input-box input, .input, textarea {
 	height: 45px;
 	width: 100%;
 	outline: none;
@@ -287,8 +323,13 @@ dialog[open] {
 	background-color: var(--kappel);
 }
 
-.input-box input:is(:focus, :valid) {
-	border-color: #b9b7ba;
+textarea {
+	height: 120px;
+	resize: none;
+}
+
+textarea, .input-box input:is(:focus, :valid) {
+	border-color: var(--kappel);
 }
 
 input[type=file]::file-selector-button {
